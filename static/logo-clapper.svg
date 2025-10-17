@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="largeBoardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34495e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="largeClapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f1c40f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" fill="#ecf0f1" rx="60"/>
+  
+  <!-- Shadow background for depth -->
+  <rect x="80" y="200" width="352" height="232" rx="8" fill="#1a252f" opacity="0.2" filter="url(#shadow)"/>
+  
+  <!-- Clapperboard body -->
+  <rect x="70" y="190" width="372" height="252" rx="8" fill="url(#largeBoardGrad)" stroke="#1a252f" stroke-width="6"/>
+  
+  <!-- White writing area with subtle texture -->
+  <rect x="85" y="210" width="342" height="215" rx="4" fill="#ffffff" stroke="#bdc3c7" stroke-width="2"/>
+  
+  <!-- Horizontal lines for text -->
+  <line x1="100" y1="260" x2="412" y2="260" stroke="#d5dbdb" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="100" y1="310" x2="412" y2="310" stroke="#d5dbdb" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="100" y1="360" x2="412" y2="360" stroke="#d5dbdb" stroke-width="2" stroke-dasharray="5,5"/>
+  
+  <!-- Labels -->
+  <text x="110" y="248" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#7f8c8d">PRODUCTION:</text>
+  <text x="110" y="298" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#7f8c8d">SCENE:</text>
+  <text x="110" y="348" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#7f8c8d">TAKE:</text>
+  
+  <!-- Main text content -->
+  <text x="256" y="280" font-family="Arial Black, sans-serif" font-size="32" font-weight="900" fill="#2c3e50" text-anchor="middle">FREE MOVIE</text>
+  <text x="256" y="330" font-family="Arial Black, sans-serif" font-size="32" font-weight="900" fill="#2c3e50" text-anchor="middle">SEARCHER</text>
+  <text x="256" y="385" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#e74c3c" text-anchor="middle">TAKE 1</text>
+  
+  <!-- Clapper stick (top part with angle) -->
+  <path d="M 70 190 L 50 100 L 422 100 L 442 190 Z" fill="url(#largeClapGrad)" stroke="#c0392b" stroke-width="6" filter="url(#shadow)"/>
+  
+  <!-- Black and white stripes on clapper -->
+  <rect x="60" y="100" width="50" height="90" fill="#2c3e50"/>
+  <rect x="140" y="100" width="50" height="90" fill="#2c3e50"/>
+  <rect x="220" y="100" width="50" height="90" fill="#2c3e50"/>
+  <rect x="300" y="100" width="50" height="90" fill="#2c3e50"/>
+  <rect x="380" y="100" width="50" height="90" fill="#2c3e50"/>
+  
+  <!-- Clapper hinges with realistic detail -->
+  <g filter="url(#shadow)">
+    <circle cx="80" cy="190" r="15" fill="#34495e" stroke="#1a252f" stroke-width="3"/>
+    <circle cx="80" cy="190" r="8" fill="#7f8c8d"/>
+    <circle cx="432" cy="190" r="15" fill="#34495e" stroke="#1a252f" stroke-width="3"/>
+    <circle cx="432" cy="190" r="8" fill="#7f8c8d"/>
+  </g>
+  
+  <!-- Scene/Take marker -->
+  <rect x="380" y="220" width="35" height="35" rx="3" fill="#e74c3c"/>
+  <text x="397.5" y="243" font-family="Arial Black, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">1A</text>
+  
+  <!-- Director label on clapper stick -->
+  <text x="256" y="150" font-family="Arial Black, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50" text-anchor="middle">DIRECTOR</text>
+  <rect x="200" y="158" width="112" height="3" fill="#2c3e50"/>
+</svg>

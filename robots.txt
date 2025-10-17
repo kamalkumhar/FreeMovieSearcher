@@ -1,0 +1,29 @@
+# robots.txt for Free Movie Searcher
+# This file tells search engines which pages to crawl
+
+User-agent: *
+Allow: /
+Allow: /static/
+Allow: /search
+Allow: /genre/
+Allow: /category/
+
+# Sitemap location
+Sitemap: http://127.0.0.1:5000/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Google-specific settings
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing-specific settings
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Disallow admin or private areas if any in future
+Disallow: /admin/
+Disallow: /private/

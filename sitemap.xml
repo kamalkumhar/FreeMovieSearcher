@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Homepage -->
+    <url>
+        <loc>http://127.0.0.1:5000/</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Popular Movies Section -->
+    <url>
+        <loc>http://127.0.0.1:5000/#popular</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Movie Blog -->
+    <url>
+        <loc>http://127.0.0.1:5000/#movie-blog</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Genres Section -->
+    <url>
+        <loc>http://127.0.0.1:5000/#genres</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Individual Genre Pages -->
+    <url>
+        <loc>http://127.0.0.1:5000/genre/action</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/genre/comedy</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/genre/drama</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/genre/horror</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/genre/romance</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/genre/thriller</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/genre/science-fiction</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Popular Movie Searches (for SEO) -->
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Deadpool+Wolverine</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Stree+2</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Squid+Game+Season+2</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Dune+Part+Two</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Kalki+2898+AD</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Oppenheimer</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Barbie</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=The+Glory</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Moving</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Jawan</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Pathaan</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/search?q=Inside+Out+2</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Category Pages -->
+    <url>
+        <loc>http://127.0.0.1:5000/category/hollywood</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/category/bollywood</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:5000/category/korean</loc>
+        <lastmod>2025-10-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+</urlset>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="modernBoardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="modernClapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background with gradient -->
+  <rect width="64" height="64" fill="url(#modernBoardGrad)" rx="10"/>
+  
+  <!-- Clapperboard body (modern style) -->
+  <rect x="10" y="26" width="44" height="28" rx="3" fill="#ffffff" opacity="0.95"/>
+  
+  <!-- Clapper stick (modern gradient) -->
+  <path d="M 10 26 L 8 14 L 52 14 L 54 26 Z" fill="url(#modernClapGrad)" filter="url(#glow2)"/>
+  
+  <!-- Diagonal stripes on clapper -->
+  <line x1="14" y1="14" x2="10" y2="26" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="22" y1="14" x2="18" y2="26" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="30" y1="14" x2="26" y2="26" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="38" y1="14" x2="34" y2="26" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="46" y1="14" x2="42" y2="26" stroke="#2c3e50" stroke-width="2"/>
+  
+  <!-- Hinges -->
+  <circle cx="12" cy="26" r="3" fill="#ffd700" filter="url(#glow2)"/>
+  <circle cx="52" cy="26" r="3" fill="#ffd700" filter="url(#glow2)"/>
+  
+  <!-- Play button in center -->
+  <polygon points="28,36 28,44 38,40" fill="url(#modernClapGrad)" filter="url(#glow2)"/>
+  
+  <!-- Text -->
+  <text x="32" y="50" font-family="Arial Black, sans-serif" font-size="6" font-weight="bold" fill="#667eea" text-anchor="middle">FM</text>
+</svg>
