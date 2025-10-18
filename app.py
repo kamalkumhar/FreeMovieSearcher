@@ -499,4 +499,4 @@ def ads_txt():
         return response
 
 if __name__ == "__main__":
-    app.run(debug=false)
+    app.run(debug=true)
