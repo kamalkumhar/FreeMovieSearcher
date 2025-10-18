@@ -3083,8 +3083,8 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                 
                 console.log('✅ Cleaned title for search:', cleanTitle);
             
-            // Multiple streaming search options with icons and colors
-            const streamingOptions = [
+                // Multiple streaming search options with icons and colors
+                const streamingOptions = [
                 { 
                     name: '🔍 Google Search', 
                     url: `https://www.google.com/search?q=watch+${cleanTitle}+online+free`,
@@ -3158,212 +3158,51 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                     icon: 'fa-crown'
                 }
             ];
-            
-            // Create a modal to show streaming options with enhanced styling
-            const optionsHTML = streamingOptions.map(option => 
-                `<a href="${option.url}" target="_blank" rel="noopener noreferrer" class="streaming-option-btn" 
-                    style="display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 14px 16px; margin: 6px 0; background: linear-gradient(135deg, ${option.color}, ${option.color}dd); color: white; text-decoration: none; border-radius: 12px; text-align: left; font-weight: 600; font-size: 0.95rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 3px 12px rgba(0,0,0,0.2); border: 2px solid rgba(255,255,255,0.1); cursor: pointer; position: relative; overflow: hidden; min-height: 50px; touch-action: manipulation; -webkit-tap-highlight-color: transparent;" 
-                    ontouchstart="this.style.transform='scale(0.98)'" 
-                    ontouchend="this.style.transform='scale(1)'"
-                    onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 5px 18px rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.3)'" 
-                    onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='0 3px 12px rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.1)'"
-                    onclick="console.log('🔗 Opening:', '${option.name}')">
-                    <i class="fas ${option.icon}" style="font-size: 1.3rem; min-width: 22px; text-align: center; flex-shrink: 0;"></i>
-                    <span style="flex: 1; line-height: 1.3;">${option.name}</span>
-                    <i class="fas fa-external-link-alt" style="font-size: 0.85rem; opacity: 0.7; flex-shrink: 0;"></i>
-                </a>`
-            ).join('');
-            
-            // Show options in a custom modal with improved styling
-            const watchModal = `
-                <div class="streaming-popup-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 99999; backdrop-filter: blur(10px); animation: fadeIn 0.3s ease; padding: 10px; box-sizing: border-box;" onclick="this.remove()">
-                    <div class="streaming-popup-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3px; border-radius: 20px; max-width: 650px; width: 100%; max-height: 95vh; overflow: hidden; box-shadow: 0 25px 70px rgba(0,0,0,0.6); animation: slideUp 0.4s ease;" onclick="event.stopPropagation()">
-                        <div class="streaming-popup-content" style="background: white; padding: 20px 15px; border-radius: 18px; max-height: calc(95vh - 6px); overflow-y: auto; -webkit-overflow-scrolling: touch; overflow-x: hidden;">
-                            <div class="streaming-popup-header" style="text-align: center; margin-bottom: 15px; position: sticky; top: 0; background: white; z-index: 1; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0;">
-                                <h2 style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; font-size: 1.5rem; font-weight: 700; line-height: 1.3; word-break: break-word;">🎬 Watch "${movieTitle}"</h2>
-                                <p style="color: #666; font-size: 0.85rem; margin: 0; line-height: 1.3;">✨ Choose your platform ✨</p>
-                                <p style="color: #999; font-size: 0.75rem; margin: 3px 0 0 0;">Tap to search on that platform</p>
-                            </div>
-                            <div class="streaming-popup-options" style="max-height: calc(60vh - 80px); overflow-y: auto; overflow-x: hidden; padding: 0 3px 10px 0; margin-right: -3px; scrollbar-width: thin; scrollbar-color: #764ba2 #f0f0f0;">
-                                ${optionsHTML}
-                            </div>
-                            <button class="streaming-popup-close-btn" onclick="console.log('🚫 Closing streaming popup'); this.closest('.streaming-popup-overlay').remove();" 
-                                style="width: 100%; padding: 14px; margin-top: 15px; background: linear-gradient(45deg, #95a5a6, #7f8c8d); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(127, 140, 141, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; touch-action: manipulation; min-height: 48px;" 
-                                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 25px rgba(127, 140, 141, 0.5)'; this.style.background='linear-gradient(45deg, #7f8c8d, #6c7a7b)'" 
-                                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 20px rgba(127, 140, 141, 0.3)'; this.style.background='linear-gradient(45deg, #95a5a6, #7f8c8d)'">
-                                <i class="fas fa-times-circle" style="font-size: 1.1rem;"></i>
-                                <span>Close</span>
-                            </button>
-                        </div>
+
+                // Build simple, always-visible popup markup (no animations/blur)
+                const optionsHTML = streamingOptions.map(option => `
+                    <a href="${option.url}" target="_blank" rel="noopener noreferrer"
+                       style="display:block; padding:12px 14px; margin:6px 0; background:${option.color}; color:#fff; text-decoration:none; border-radius:10px; font-weight:600;">
+                        ${option.name}
+                    </a>
+                `).join('');
+
+                const watchModal = `
+                <div class="watch-overlay" role="dialog" aria-modal="true"
+                     style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2147483647; display:flex; align-items:center; justify-content:center; padding:16px;"
+                     onclick="this.remove(); document.body.classList.remove('streaming-popup-open');">
+                  <div class="watch-box" style="background:#fff; color:#111; width:min(700px,95vw); max-height:90vh; overflow:auto; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,0.5); padding:16px;"
+                       onclick="event.stopPropagation();">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px;">
+                      <h2 style="margin:0; font-size:1.25rem; color:#2C3E50;">Watch: ${movieTitle}</h2>
+                      <button type="button" aria-label="Close" 
+                              onclick="this.closest('.watch-overlay').remove(); document.body.classList.remove('streaming-popup-open');"
+                              style="border:none; background:#eee; color:#333; border-radius:8px; padding:6px 10px; cursor:pointer;">Close</button>
                     </div>
-                </div>
-                <style>
-                    @keyframes fadeIn {
-                        from { opacity: 0; }
-                        to { opacity: 1; }
-                    }
-                    @keyframes slideUp {
-                        from { transform: translateY(50px); opacity: 0; }
-                        to { transform: translateY(0); opacity: 1; }
-                    }
-                    
-                    /* Custom scrollbar for streaming options */
-                    .streaming-popup-overlay ::-webkit-scrollbar {
-                        width: 8px;
-                        height: 8px;
-                    }
-                    .streaming-popup-overlay ::-webkit-scrollbar-track {
-                        background: #f0f0f0;
-                        border-radius: 10px;
-                    }
-                    .streaming-popup-overlay ::-webkit-scrollbar-thumb {
-                        background: linear-gradient(135deg, #667eea, #764ba2);
-                        border-radius: 10px;
-                        transition: all 0.3s ease;
-                    }
-                    .streaming-popup-overlay ::-webkit-scrollbar-thumb:hover {
-                        background: linear-gradient(135deg, #764ba2, #667eea);
-                    }
-                    
-                    /* Prevent body scroll when popup is open */
-                    body.streaming-popup-open {
-                        overflow: hidden;
-                        position: fixed;
-                        width: 100%;
-                    }
-                    
-                    /* Mobile-specific styles for streaming popup */
-                    @media (max-width: 768px) {
-                        .streaming-popup-overlay {
-                            padding: 5px !important;
-                            align-items: flex-end !important;
-                        }
-                        
-                        .streaming-popup-container {
-                            border-radius: 20px 20px 0 0 !important;
-                            max-height: 90vh !important;
-                            animation: slideUpMobile 0.3s ease !important;
-                        }
-                        
-                        .streaming-popup-content {
-                            padding: 15px 12px !important;
-                            border-radius: 18px 18px 0 0 !important;
-                        }
-                        
-                        .streaming-popup-header h2 {
-                            font-size: 1.3rem !important;
-                            margin-bottom: 4px !important;
-                        }
-                        
-                        .streaming-popup-header p:first-of-type {
-                            font-size: 0.8rem !important;
-                        }
-                        
-                        .streaming-popup-header p:last-of-type {
-                            font-size: 0.7rem !important;
-                        }
-                        
-                        .streaming-popup-options {
-                            max-height: calc(70vh - 80px) !important;
-                            padding: 0 2px 5px 0 !important;
-                        }
-                        
-                        .streaming-option-btn {
-                            padding: 12px 14px !important;
-                            font-size: 0.9rem !important;
-                            min-height: 48px !important;
-                            margin: 5px 0 !important;
-                            gap: 8px !important;
-                        }
-                        
-                        .streaming-option-btn i:first-child {
-                            font-size: 1.2rem !important;
-                            min-width: 20px !important;
-                        }
-                        
-                        .streaming-option-btn i:last-child {
-                            font-size: 0.8rem !important;
-                        }
-                        
-                        .streaming-popup-close-btn {
-                            padding: 12px !important;
-                            font-size: 0.95rem !important;
-                            margin-top: 12px !important;
-                            min-height: 48px !important;
-                            border-radius: 12px !important;
-                        }
-                    }
-                    
-                    @keyframes slideUpMobile {
-                        from { 
-                            transform: translateY(100%); 
-                            opacity: 0.8; 
-                        }
-                        to { 
-                            transform: translateY(0); 
-                            opacity: 1; 
-                        }
-                    }
-                    
-                    /* Extra small mobile devices */
-                    @media (max-width: 480px) {
-                        .streaming-popup-overlay {
-                            padding: 0 !important;
-                        }
-                        
-                        .streaming-popup-container {
-                            border-radius: 16px 16px 0 0 !important;
-                            padding: 2px !important;
-                        }
-                        
-                        .streaming-popup-content {
-                            padding: 12px 10px !important;
-                            border-radius: 14px 14px 0 0 !important;
-                        }
-                        
-                        .streaming-popup-header {
-                            padding-bottom: 10px !important;
-                            margin-bottom: 12px !important;
-                        }
-                        
-                        .streaming-popup-header h2 {
-                            font-size: 1.2rem !important;
-                        }
-                        
-                        .streaming-option-btn {
-                            padding: 11px 12px !important;
-                            font-size: 0.85rem !important;
-                            margin: 4px 0 !important;
-                        }
-                        
-                        .streaming-option-btn span {
-                            font-size: 0.85rem !important;
-                        }
-                    }
-                </style>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', watchModal);
-            document.body.classList.add('streaming-popup-open');
-            console.log('✅ Streaming popup opened successfully with', streamingOptions.length, 'options');
-            
-            // Remove body scroll lock when popup is closed
-            const popup = document.querySelector('.streaming-popup-overlay');
-            if (popup) {
-                popup.addEventListener('click', function(e) {
-                    if (e.target === popup) {
-                        document.body.classList.remove('streaming-popup-open');
-                    }
-                });
+                    <div>
+                      ${optionsHTML}
+                    </div>
+                  </div>
+                </div>`;
+
+                                // Remove any existing overlay before adding a new one
+                                document.querySelectorAll('.watch-overlay').forEach(el => el.remove());
+                                document.body.insertAdjacentHTML('beforeend', watchModal);
+                                document.body.classList.add('streaming-popup-open');
+                                console.log('✅ Streaming popup opened with', streamingOptions.length, 'options');
+                                // Close on Escape
+                                const overlay = document.querySelector('.watch-overlay');
+                                if (overlay) {
+                                    const escHandler = (e) => {
+                                        if (e.key === 'Escape') {
+                                            overlay.remove();
+                                            document.body.classList.remove('streaming-popup-open');
+                                            document.removeEventListener('keydown', escHandler);
+                                        }
+                                    };
+                                    document.addEventListener('keydown', escHandler);
+                                }
                 
-                // Also handle close button
-                const closeBtn = popup.querySelector('button');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', () => {
-                        document.body.classList.remove('streaming-popup-open');
-                    });
-                }
-            }
             } catch (error) {
                 console.error('❌ Error opening streaming options:', error);
                 alert('⚠️ Sorry, there was an error opening streaming options. Please try again.');
