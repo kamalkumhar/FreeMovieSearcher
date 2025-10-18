@@ -252,6 +252,10 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
@@ -406,19 +410,93 @@ def get_top_directors(limit=10):
 # SEO Routes - Sitemap and Robots.txt
 @app.route('/sitemap.xml')
 def sitemap():
-    """Serve sitemap for search engines"""
+    """Generate dynamic sitemap for search engines"""
+    from datetime import datetime
+    
+    pages = [
+        {'loc': '/', 'priority': '1.0', 'changefreq': 'daily'},
+        {'loc': '/about', 'priority': '0.8', 'changefreq': 'monthly'},
+        {'loc': '/faq', 'priority': '0.8', 'changefreq': 'monthly'},
+        {'loc': '/contact', 'priority': '0.6', 'changefreq': 'monthly'},
+        {'loc': '/privacy', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': '/terms', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': '/disclaimer', 'priority': '0.5', 'changefreq': 'yearly'},
+    ]
+    
+    # Add genre pages if you have them
     try:
-        return send_from_directory('.', 'sitemap.xml', mimetype='application/xml')
+        genres = data['genres'].dropna().str.split(',').explode().str.strip().unique()
+        for genre in genres[:20]:  # Top 20 genres
+            pages.append({
+                'loc': f'/genre/{genre.lower().replace(" ", "-")}',
+                'priority': '0.7',
+                'changefreq': 'weekly'
+            })
     except:
-        return "Sitemap not found", 404
+        pass
+    
+    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for page in pages:
+        sitemap_xml += '  <url>\n'
+        sitemap_xml += f'    <loc>https://freemoviesearcher.com{page["loc"]}</loc>\n'
+        sitemap_xml += f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>\n'
+        sitemap_xml += f'    <changefreq>{page["changefreq"]}</changefreq>\n'
+        sitemap_xml += f'    <priority>{page["priority"]}</priority>\n'
+        sitemap_xml += '  </url>\n'
+    
+    sitemap_xml += '</urlset>'
+    
+    response = make_response(sitemap_xml)
+    response.headers['Content-Type'] = 'application/xml'
+    return response
 
 @app.route('/robots.txt')
 def robots():
     """Serve robots.txt for search engine crawlers"""
+    robots_txt = """User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /static/*.json
+
+# Sitemap location
+Sitemap: https://freemoviesearcher.com/sitemap.xml
+
+# Crawl-delay for courtesy
+Crawl-delay: 1
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+"""
+    
+    response = make_response(robots_txt)
+    response.headers['Content-Type'] = 'text/plain'
+    return response
+
+@app.route('/ads.txt')
+def ads_txt():
+    """Serve ads.txt for ad network verification (required for AdSense)"""
     try:
-        return send_from_directory('.', 'robots.txt', mimetype='text/plain')
+        return send_from_directory('.', 'ads.txt', mimetype='text/plain')
     except:
-        return "Robots.txt not found", 404
+        response = make_response("# Add your AdSense Publisher ID here after approval")
+        response.headers['Content-Type'] = 'text/plain'
+        return response
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,18 @@
+# ads.txt for Google AdSense
+# Update with your actual AdSense Publisher ID once approved
+# Format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+
+# Example (replace with your actual Publisher ID):
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+
+# Instructions:
+# 1. Apply for Google AdSense at https://www.google.com/adsense
+# 2. Once approved, you'll receive your Publisher ID (pub-XXXXXXXXXXXXXXXX)
+# 3. Replace the example line above with your actual Publisher ID
+# 4. Remove the # from the beginning of the line to activate it
+# 5. Upload this file to the root of your domain (domain.com/ads.txt)
+
+# Additional ad networks can be added below in the same format:
+# domain.com, publisher_id, RELATIONSHIP, certification_authority_id
+
+# For more information: https://iabtechlab.com/ads-txt/

@@ -2,36 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- Enhanced SEO Meta Tags -->
-    <meta name="description" content="Free Movie Searcher - Search 3400+ Hollywood, Bollywood & Korean movies with AI recommendations. Find Deadpool & Wolverine, Stree 2, Squid Game Season 2, Dune 2, Kalki 2898 AD & more. Watch free movies online legally.">
-    <meta name="keywords" content="free movie search, movie finder, watch movies online free, Deadpool Wolverine, Stree 2, Squid Game 2, Dune Part Two, Kalki 2898 AD, Oppenheimer, Barbie, Korean drama, Bollywood movies 2024, Hollywood movies 2024, AI movie recommendations, movie database, film search engine, genre movies, IMDb movies, best movies 2024, K-drama streaming">
+    <meta name="description" content="Free Movie Searcher - Search 3500+ Hollywood, Bollywood & Korean movies with AI recommendations. Find Deadpool & Wolverine, Stree 2, Squid Game Season 2, Dune 2, Kalki 2898 AD & more. Watch free movies online legally with streaming platform links.">
+    <meta name="keywords" content="free movie search, movie finder, watch movies online free, Deadpool Wolverine, Stree 2, Squid Game 2, Dune Part Two, Kalki 2898 AD, Oppenheimer, Barbie, Korean drama, Bollywood movies 2024, Hollywood movies 2024, AI movie recommendations, movie database, film search engine, genre movies, IMDb movies, best movies 2024, K-drama streaming, Netflix movies, Prime Video">
     <meta name="author" content="Free Movie Searcher">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="googlebot" content="index, follow">
-    <link rel="canonical" href="http://127.0.0.1:5000/">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="bingbot" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    <link rel="canonical" href="https://freemoviesearcher.com/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://127.0.0.1:5000/">
-    <meta property="og:title" content="Free Movie Searcher - Find 3400+ Movies | Hollywood, Bollywood & Korean">
-    <meta property="og:description" content="AI-powered movie search engine with 3400+ films. Discover Deadpool & Wolverine, Stree 2, Squid Game S2, Dune 2, K-dramas & Bollywood hits. Free recommendations!">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200&h=630">
+    <meta property="og:url" content="https://freemoviesearcher.com/">
+    <meta property="og:title" content="Free Movie Searcher - Find 3500+ Movies | Hollywood, Bollywood & Korean Films">
+    <meta property="og:description" content="AI-powered movie search engine with 3500+ films. Discover Deadpool & Wolverine, Stree 2, Squid Game S2, Dune 2, K-dramas & Bollywood hits. Free recommendations & streaming platform links!">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Free Movie Searcher">
     <meta property="og:locale" content="en_US">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="http://127.0.0.1:5000/">
-    <meta name="twitter:title" content="Free Movie Searcher - 3400+ Movies Database">
+    <meta name="twitter:url" content="https://freemoviesearcher.com/">
+    <meta name="twitter:title" content="Free Movie Searcher - 3500+ Movies Database">
     <meta name="twitter:description" content="Search Hollywood, Bollywood & Korean movies instantly. AI recommendations for Deadpool, Stree 2, Squid Game & more!">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200&h=630">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200&h=630&fit=crop">
+    <meta name="twitter:site" content="@freemoviesearch">
+    <meta name="twitter:creator" content="@freemoviesearch">
     
-    <title>Free Movie Searcher - Find 3400+ Movies | Deadpool, Stree 2, Squid Game, Dune 2 & More</title>
+    <title>Free Movie Searcher - Find 3500+ Movies | Deadpool, Stree 2, Squid Game, Dune 2 & More</title>
     <link rel="icon" type="image/svg+xml" href="/static/favicon-clapper-modern.svg">
     <link rel="alternate icon" href="/static/favicon.ico">
     <link rel="apple-touch-icon" href="/static/favicon-clapper-modern.svg">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://image.tmdb.org">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Enhanced Structured Data (JSON-LD) for Google Search -->
@@ -3077,6 +3094,15 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                     return;
                 }
                 
+                // Get click position for positioning popup near the movie card
+                let clickY = 0;
+                if (event && event.target) {
+                    const rect = event.target.closest('.movie-card, .movie-modal-wrapper')?.getBoundingClientRect();
+                    if (rect) {
+                        clickY = rect.top + window.scrollY;
+                    }
+                }
+                
                 // Clean movie title for URL (remove special characters, replace spaces with +)
                 const cleanTitle = movieTitle.replace(/[^\w\s]/gi, '').replace(/\s+/g, '+');
                 const cleanTitleDash = movieTitle.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase();
@@ -3167,11 +3193,14 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                     </a>
                 `).join('');
 
+                // Position popup near the clicked card, or center if no position available
+                const topPos = clickY > 100 ? `${clickY - 50}px` : '10vh';
+                
                 const watchModal = `
                 <div class="watch-overlay" role="dialog" aria-modal="true"
-                     style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2147483647; display:flex; align-items:center; justify-content:center; padding:16px;"
+                     style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2147483647; overflow-y:auto; padding:16px;"
                      onclick="this.remove(); document.body.classList.remove('streaming-popup-open');">
-                  <div class="watch-box" style="background:#fff; color:#111; width:min(700px,95vw); max-height:90vh; overflow:auto; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,0.5); padding:16px;"
+                  <div class="watch-box" style="position:absolute; top:${topPos}; left:50%; transform:translateX(-50%); background:#fff; color:#111; width:min(600px,90vw); max-height:85vh; overflow:auto; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,0.5); padding:16px; margin-bottom:20px;"
                        onclick="event.stopPropagation();">
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px;">
                       <h2 style="margin:0; font-size:1.25rem; color:#2C3E50;">Watch: ${movieTitle}</h2>
@@ -3185,24 +3214,34 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                   </div>
                 </div>`;
 
-                                // Remove any existing overlay before adding a new one
-                                document.querySelectorAll('.watch-overlay').forEach(el => el.remove());
-                                document.body.insertAdjacentHTML('beforeend', watchModal);
-                                document.body.classList.add('streaming-popup-open');
-                                console.log('✅ Streaming popup opened with', streamingOptions.length, 'options');
-                                // Close on Escape
-                                const overlay = document.querySelector('.watch-overlay');
-                                if (overlay) {
-                                    const escHandler = (e) => {
-                                        if (e.key === 'Escape') {
-                                            overlay.remove();
-                                            document.body.classList.remove('streaming-popup-open');
-                                            document.removeEventListener('keydown', escHandler);
-                                        }
-                                    };
-                                    document.addEventListener('keydown', escHandler);
-                                }
-                
+                // Remove any existing overlay before adding a new one
+                document.querySelectorAll('.watch-overlay').forEach(el => el.remove());
+                document.body.insertAdjacentHTML('beforeend', watchModal);
+                document.body.classList.add('streaming-popup-open');
+                console.log('✅ Streaming popup opened with', streamingOptions.length, 'options');
+                // Close on Escape
+                const overlay = document.querySelector('.watch-overlay');
+                if (overlay) {
+                    const escHandler = (e) => {
+                        if (e.key === 'Escape') {
+                            overlay.remove();
+                            document.body.classList.remove('streaming-popup-open');
+                            document.removeEventListener('keydown', escHandler);
+                        }
+                    };
+                    document.addEventListener('keydown', escHandler);
+                    
+                    // Auto-scroll popup into view
+                    setTimeout(() => {
+                        const box = overlay.querySelector('.watch-box');
+                        if (box) {
+                            const r = box.getBoundingClientRect();
+                            console.log('ℹ️ watch-box rect', r);
+                            // Scroll to popup so it's visible near the clicked card
+                            box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 50);
+                }
             } catch (error) {
                 console.error('❌ Error opening streaming options:', error);
                 alert('⚠️ Sorry, there was an error opening streaming options. Please try again.');
@@ -3453,6 +3492,7 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About Us</a></li>
+                    <li><a href="/faq">FAQ</a></li>
                     <li><a href="/contact">Contact</a></li>
                     <li><a href="/disclaimer">Disclaimer</a></li>
                 </ul>
@@ -3463,6 +3503,7 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
                 <ul>
                     <li><a href="/privacy">Privacy Policy</a></li>
                     <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="#" onclick="document.getElementById('cookieCustomizeModal').style.display='flex'; return false;">Cookie Settings</a></li>
                 </ul>
             </div>
             
@@ -3477,9 +3518,12 @@ stars += `<span class=\"star ${filled}\" onclick=\"rateMovie('${movieTitle}', ${
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2024 Free Movie Searcher. All rights reserved. | Built with ❤️ for movie lovers</p>
+            <p>&copy; 2025 Free Movie Searcher. All rights reserved. | Built with ❤️ for movie lovers</p>
         </div>
     </footer>
+
+    <!-- Include Cookie Consent Banner -->
+    {% include 'cookie_consent.html' %}
 
 </body>
 </html>
