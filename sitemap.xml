@@ -4,7 +4,7 @@
     
     <!-- Homepage -->
     <url>
-        <loc>http://127.0.0.1:5000/</loc>
+        <loc>https://freemoviesearcher.tech/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
@@ -12,7 +12,7 @@
     
     <!-- Popular Movies Section -->
     <url>
-        <loc>http://127.0.0.1:5000/#popular</loc>
+        <loc>https://freemoviesearcher.tech/#popular</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
@@ -20,7 +20,7 @@
     
     <!-- Movie Blog -->
     <url>
-        <loc>http://127.0.0.1:5000/#movie-blog</loc>
+        <loc>https://freemoviesearcher.tech/#movie-blog</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -28,7 +28,7 @@
     
     <!-- Genres Section -->
     <url>
-        <loc>http://127.0.0.1:5000/#genres</loc>
+        <loc>https://freemoviesearcher.tech/#genres</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -36,43 +36,43 @@
     
     <!-- Individual Genre Pages -->
     <url>
-        <loc>http://127.0.0.1:5000/genre/action</loc>
+        <loc>https://freemoviesearcher.tech/genre/action</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/genre/comedy</loc>
+        <loc>https://freemoviesearcher.tech/genre/comedy</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/genre/drama</loc>
+        <loc>https://freemoviesearcher.tech/genre/drama</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/genre/horror</loc>
+        <loc>https://freemoviesearcher.tech/genre/horror</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/genre/romance</loc>
+        <loc>https://freemoviesearcher.tech/genre/romance</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/genre/thriller</loc>
+        <loc>https://freemoviesearcher.tech/genre/thriller</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/genre/science-fiction</loc>
+        <loc>https://freemoviesearcher.tech/genre/science-fiction</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
@@ -80,49 +80,49 @@
     
     <!-- Popular Movie Searches (for SEO) -->
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Deadpool+Wolverine</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Deadpool+Wolverine</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Stree+2</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Stree+2</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Squid+Game+Season+2</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Squid+Game+Season+2</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Dune+Part+Two</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Dune+Part+Two</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Kalki+2898+AD</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Kalki+2898+AD</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Oppenheimer</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Oppenheimer</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Barbie</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Barbie</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=The+Glory</loc>
+        <loc>https://freemoviesearcher.tech/search?q=The+Glory</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -134,19 +134,19 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Jawan</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Jawan</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Pathaan</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Pathaan</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/search?q=Inside+Out+2</loc>
+        <loc>https://freemoviesearcher.tech/search?q=Inside+Out+2</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -154,19 +154,19 @@
     
     <!-- Category Pages -->
     <url>
-        <loc>http://127.0.0.1:5000/category/hollywood</loc>
+        <loc>https://freemoviesearcher.tech/category/hollywood</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/category/bollywood</loc>
+        <loc>https://freemoviesearcher.tech/category/bollywood</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1:5000/category/korean</loc>
+        <loc>https://freemoviesearcher.tech/category/korean</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
