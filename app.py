@@ -462,7 +462,7 @@ Disallow: /admin/
 Disallow: /static/*.json
 
 # Sitemap location
-Sitemap: https://freemoviesearcher.com/sitemap.xml
+Sitemap: https://freemoviesearcher.tech/sitemap.xml
 
 # Crawl-delay for courtesy
 Crawl-delay: 1
