@@ -440,7 +440,7 @@ def sitemap():
     
     for page in pages:
         sitemap_xml += '  <url>\n'
-        sitemap_xml += f'    <loc>https://freemoviesearcher.com{page["loc"]}</loc>\n'
+        sitemap_xml += f'    <loc>https://freemoviesearcher.tech{page["loc"]}</loc>\n'
         sitemap_xml += f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>\n'
         sitemap_xml += f'    <changefreq>{page["changefreq"]}</changefreq>\n'
         sitemap_xml += f'    <priority>{page["priority"]}</priority>\n'
