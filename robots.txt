@@ -9,7 +9,7 @@ Allow: /genre/
 Allow: /category/
 
 # Sitemap location
-Sitemap: http://127.0.0.1:5000/sitemap.xml
+Sitemap: https://freemoviesearcher.tech/sitemap.xml
 
 # Crawl-delay for better server performance
 Crawl-delay: 1
