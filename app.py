@@ -1,11 +1,69 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory, make_response
+from flask import Flask, request, jsonify, render_template, send_from_directory, make_response, redirect, url_for
 from flask_cors import CORS  # Import Flask-CORS
+from flask_compress import Compress
 import pandas as pd
 import joblib
 import os
+from datetime import datetime, timedelta
 
 app = Flask(__name__, template_folder="templates")  # Specify the folder for HTML templates
 CORS(app)  # Enable CORS to allow cross-origin requests
+Compress(app)  # Enable Gzip compression for better performance
+
+# Production domain configuration
+PRODUCTION_DOMAIN = 'freemoviesearcher.tech'
+PRODUCTION_URL = f'https://{PRODUCTION_DOMAIN}'
+
+# Force HTTPS and canonical domain redirect for SEO
+@app.before_request
+def redirect_to_canonical():
+    """Redirect all requests to canonical HTTPS domain for SEO"""
+    # Skip redirects for local development
+    if request.host.startswith('127.0.0.1') or request.host.startswith('localhost'):
+        return None
+    
+    # Force HTTPS
+    if request.scheme == 'http':
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
+    
+    # Force canonical domain (www to non-www or vice versa)
+    if request.host.startswith('www.'):
+        url = request.url.replace('www.', '', 1)
+        return redirect(url, code=301)
+    
+    # Ensure correct domain
+    if request.host != PRODUCTION_DOMAIN and not request.host.startswith('127.0.0.1') and not request.host.startswith('localhost'):
+        url = request.url.replace(request.host, PRODUCTION_DOMAIN, 1)
+        return redirect(url, code=301)
+    
+    return None
+
+# Performance optimization: Add caching headers
+@app.after_request
+def add_cache_headers(response):
+    # Add security headers for SEO and security
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    
+    # Cache static files for 1 year
+    if request.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+    # Cache API responses for 1 hour
+    elif request.path.startswith(('/recommend', '/search', '/popular', '/genres', '/genre/')):
+        response.headers['Cache-Control'] = 'public, max-age=3600'
+    # Cache sitemap/robots for 1 day
+    elif request.path in ['/sitemap.xml', '/robots.txt', '/ads.txt']:
+        response.headers['Cache-Control'] = 'public, max-age=86400'
+    # Don't cache HTML pages (for SEO updates)
+    else:
+        response.headers['Cache-Control'] = 'public, max-age=0, must-revalidate'
+    
+    # Add compression hint
+    response.headers['Vary'] = 'Accept-Encoding'
+    
+    return response
 
 BASE_POSTER_URL = "https://image.tmdb.org/t/p/w500"
 
@@ -410,27 +468,76 @@ def get_top_directors(limit=10):
 # SEO Routes - Sitemap and Robots.txt
 @app.route('/sitemap.xml')
 def sitemap():
-    """Generate dynamic sitemap for search engines"""
+    """Generate dynamic sitemap for search engines with blog posts"""
     from datetime import datetime
     
     pages = [
         {'loc': '/', 'priority': '1.0', 'changefreq': 'daily'},
         {'loc': '/about', 'priority': '0.8', 'changefreq': 'monthly'},
-        {'loc': '/faq', 'priority': '0.8', 'changefreq': 'monthly'},
+        {'loc': '/faq', 'priority': '0.9', 'changefreq': 'weekly'},
         {'loc': '/contact', 'priority': '0.6', 'changefreq': 'monthly'},
         {'loc': '/privacy', 'priority': '0.5', 'changefreq': 'yearly'},
         {'loc': '/terms', 'priority': '0.5', 'changefreq': 'yearly'},
         {'loc': '/disclaimer', 'priority': '0.5', 'changefreq': 'yearly'},
     ]
     
-    # Add genre pages if you have them
+    # Add blog posts (SEO-optimized URLs)
+    blog_posts = [
+        {'slug': 'best-netflix-movies-2025', 'title': 'Best Movies to Watch on Netflix 2025'},
+        {'slug': 'top-10-movies-all-time', 'title': 'Top 10 Movies of All Time'},
+        {'slug': 'best-horror-movies', 'title': 'Best Horror Movies - Scariest Films'},
+        {'slug': 'best-action-movies', 'title': 'Best Action Movies'},
+        {'slug': 'best-romantic-movies', 'title': 'Best Romantic Movies'},
+        {'slug': 'best-comedy-movies', 'title': 'Best Comedy Movies'},
+        {'slug': 'best-sci-fi-movies', 'title': 'Best Science Fiction Movies'},
+        {'slug': 'how-to-find-good-movies', 'title': 'How to Find Good Movies to Watch'},
+        {'slug': 'movies-based-on-true-stories', 'title': 'Best Movies Based on True Stories'},
+        {'slug': 'best-family-movies', 'title': 'Best Family Movies'},
+        {'slug': 'best-thriller-movies', 'title': 'Best Thriller Movies'},
+        {'slug': 'best-animated-movies', 'title': 'Best Animated Movies'},
+        {'slug': 'best-bollywood-movies-2024', 'title': 'Best Bollywood Movies 2024'},
+        {'slug': 'best-korean-dramas', 'title': 'Best Korean Dramas'},
+        {'slug': 'best-superhero-movies', 'title': 'Best Superhero Movies'},
+        {'slug': 'movies-with-plot-twists', 'title': 'Best Movies with Plot Twists'},
+        {'slug': 'best-movies-2024', 'title': 'Best Movies of 2024'},
+        {'slug': 'free-movies-online-legally', 'title': 'Watch Free Movies Online Legally'},
+        {'slug': 'free-movie-websites', 'title': 'Free Movie Websites'},
+        {'slug': 'free-movie-apps', 'title': 'Best Free Movie Apps'},
+        {'slug': 'free-movies-youtube', 'title': 'Free Movies on YouTube'},
+        {'slug': 'free-movie-download-sites', 'title': 'Legal Free Movie Download Sites'},
+        {'slug': 'watch-movies-no-subscription', 'title': 'Watch Movies Without Subscription'},
+        {'slug': 'free-classic-movies', 'title': 'Free Classic Movies Online'},
+        {'slug': 'free-hd-movies', 'title': 'Free HD Movies Online'},
+    ]
+    
+    for post in blog_posts:
+        pages.append({
+            'loc': f'/blog/{post["slug"]}',
+            'priority': '0.8',
+            'changefreq': 'monthly'
+        })
+    
+    # Add genre pages
     try:
         genres = data['genres'].dropna().str.split(',').explode().str.strip().unique()
-        for genre in genres[:20]:  # Top 20 genres
+        for genre in genres[:30]:  # Top 30 genres
             pages.append({
                 'loc': f'/genre/{genre.lower().replace(" ", "-")}',
                 'priority': '0.7',
                 'changefreq': 'weekly'
+            })
+    except:
+        pass
+    
+    # Add popular movie pages (top 50)
+    try:
+        popular = data.nlargest(50, 'vote_count') if 'vote_count' in data.columns else data.head(50)
+        for _, movie in popular.iterrows():
+            movie_slug = movie['Title'].replace(' ', '-').replace('/', '-')
+            pages.append({
+                'loc': f'/movie/{movie_slug}',
+                'priority': '0.6',
+                'changefreq': 'monthly'
             })
     except:
         pass
@@ -440,7 +547,7 @@ def sitemap():
     
     for page in pages:
         sitemap_xml += '  <url>\n'
-        sitemap_xml += f'    <loc>https://freemoviesearcher.com{page["loc"]}</loc>\n'
+        sitemap_xml += f'    <loc>https://freemoviesearcher.tech{page["loc"]}</loc>\n'
         sitemap_xml += f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>\n'
         sitemap_xml += f'    <changefreq>{page["changefreq"]}</changefreq>\n'
         sitemap_xml += f'    <priority>{page["priority"]}</priority>\n'
@@ -462,7 +569,7 @@ Disallow: /admin/
 Disallow: /static/*.json
 
 # Sitemap location
-Sitemap: https://freemoviesearcher.com/sitemap.xml
+Sitemap: https://freemoviesearcher.tech/sitemap.xml
 
 # Crawl-delay for courtesy
 Crawl-delay: 1
@@ -498,5 +605,19 @@ def ads_txt():
         response.headers['Content-Type'] = 'text/plain'
         return response
 
+# Error handlers for better SEO
+@app.errorhandler(404)
+def page_not_found(e):
+    """Custom 404 page"""
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    """Custom 500 error page"""
+    return render_template('404.html'), 500
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Check if running in production (Render, Heroku, etc.)
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_ENV') != 'production'
+    app.run(host='0.0.0.0', port=port, debug=debug)
