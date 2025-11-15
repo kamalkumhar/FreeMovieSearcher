@@ -18,6 +18,24 @@ instance/
 # IDEs
 .vscode/
 .idea/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Deployment scripts (not needed in production)
+*.sh
+*.ps1
+*.bat
+
+# Static files (using dynamic routes)
+sitemap.xml
+robots.txt
 *.swp
 *.swo
 *~

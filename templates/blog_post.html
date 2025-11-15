@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>{{ post.title }} | FreeMovieSearcher</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ post.meta_description }}">
+    <meta name="keywords" content="movies, {{ slug }}, free movies, movie recommendations, {{ post.title }}">
+    <meta name="author" content="{{ post.author }}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ post.title }}">
+    <meta property="og:description" content="{{ post.meta_description }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:site_name" content="FreeMovieSearcher">
+    <meta property="article:published_time" content="{{ post.date }}T00:00:00+00:00">
+    <meta property="article:author" content="{{ post.author }}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ post.title }}">
+    <meta name="twitter:description" content="{{ post.meta_description }}">
+    
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{{ post.title }}",
+      "description": "{{ post.meta_description }}",
+      "author": {
+        "@type": "Organization",
+        "name": "{{ post.author }}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "FreeMovieSearcher",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://freemoviesearcher.tech/static/logo.png"
+        }
+      },
+      "datePublished": "{{ post.date }}",
+      "dateModified": "{{ post.date }}",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ canonical_url }}"
+      }
+    }
+    </script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://freemoviesearcher.tech/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://freemoviesearcher.tech/#blog"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{{ post.title }}",
+        "item": "{{ canonical_url }}"
+      }]
+    }
+    </script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <style>
+        .blog-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .blog-header {
+            margin-bottom: 40px;
+        }
+        
+        .blog-title {
+            font-size: 2.5em;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+        
+        .blog-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .content-section {
+            margin-bottom: 45px;
+        }
+        
+        .content-section h2 {
+            font-size: 1.8em;
+            color: #222;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .content-section p {
+            font-size: 1.1em;
+            line-height: 1.9;
+            margin-bottom: 25px;
+            color: #444;
+            text-align: justify;
+        }
+        
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .breadcrumb a {
+            color: #e50914;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            color: #999;
+            margin: 0 8px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+        
+        .share-buttons {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .share-buttons h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .share-btn {
+            display: inline-block;
+            margin-right: 15px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .share-facebook {
+            background: #1877f2;
+        }
+        
+        .share-twitter {
+            background: #1da1f2;
+        }
+        
+        .share-whatsapp {
+            background: #25d366;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-container {
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            .blog-title {
+                font-size: 1.8em;
+            }
+            
+            .content-section h2 {
+                font-size: 1.4em;
+            }
+            
+            .content-section p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blog-container">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="breadcrumb">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/#blog">Blog</a>
+            <span>›</span>
+            <span>{{ post.title }}</span>
+        </nav>
+        
+        <!-- Blog Header -->
+        <header class="blog-header">
+            <h1 class="blog-title">{{ post.title }}</h1>
+            <div class="blog-meta">
+                <span>
+                    📅 {{ post.date }}
+                </span>
+                <span>
+                    ✍️ {{ post.author }}
+                </span>
+                <span>
+                    ⏱️ {{ post.content|length * 2 }} min read
+                </span>
+            </div>
+        </header>
+        
+        <!-- Blog Content -->
+        <article class="blog-content">
+            {% for section in post.content %}
+            <section class="content-section">
+                <h2>{{ section.heading }}</h2>
+                <p>{{ section.text }}</p>
+            </section>
+            {% endfor %}
+        </article>
+        
+        <!-- Share Buttons -->
+        <div class="share-buttons">
+            <h3>Share this article:</h3>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ canonical_url }}" 
+               class="share-btn share-facebook" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                Share on Facebook
+            </a>
+            <a href="https://twitter.com/intent/tweet?url={{ canonical_url }}&text={{ post.title }}" 
+               class="share-btn share-twitter" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                Share on Twitter
+            </a>
+            <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ canonical_url }}" 
+               class="share-btn share-whatsapp" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                Share on WhatsApp
+            </a>
+        </div>
+        
+        <a href="/" class="back-button">← Back to Home</a>
+    </div>
+</body>
+</html>
