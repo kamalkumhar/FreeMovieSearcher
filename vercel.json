@@ -20,11 +20,5 @@
     "FLASK_ENV": "production",
     "PYTHON_VERSION": "3.9"
   },
-  "regions": ["bom1"],
-  "functions": {
-    "app.py": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  "regions": ["bom1"]
 }
