@@ -18,7 +18,8 @@
   ],
   "env": {
     "FLASK_ENV": "production",
-    "PYTHON_VERSION": "3.9"
+    "PYTHON_VERSION": "3.9",
+    "JOBLIB_MULTIPROCESSING": "0"
   },
   "regions": ["bom1"]
 }

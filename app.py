@@ -5,6 +5,11 @@ import pandas as pd
 import joblib
 import os
 from datetime import datetime, timedelta
+import warnings
+
+# Suppress joblib multiprocessing warnings in serverless environment
+warnings.filterwarnings('ignore', message='.*joblib will operate in serial mode.*')
+os.environ['JOBLIB_MULTIPROCESSING'] = '0'
 
 app = Flask(__name__, template_folder="templates")  # Specify the folder for HTML templates
 CORS(app)  # Enable CORS to allow cross-origin requests
