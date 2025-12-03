@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Free Movie Searcher</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon-clapper-modern.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        .offline-container {
+            max-width: 500px;
+        }
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        .retry-button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .offline-features {
+            margin-top: 3rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+        .offline-features h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .offline-features ul {
+            list-style: none;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .offline-features li {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡❌</div>
+        <h1>You're Offline</h1>
+        <p>Looks like you've lost your internet connection. Don't worry, we'll get you back to finding great movies in no time!</p>
+        <button class="retry-button" onclick="window.location.reload()">Try Again</button>
+        
+        <div class="offline-features">
+            <h2>💡 While You Wait</h2>
+            <ul>
+                <li>✓ Check your internet connection</li>
+                <li>✓ Make sure Wi-Fi is enabled</li>
+                <li>✓ Try disabling airplane mode</li>
+                <li>✓ Restart your router if needed</li>
+            </ul>
+        </div>
+        
+        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">
+            This page was cached for offline use by Free Movie Searcher PWA
+        </p>
+    </div>
+    
+    <script>
+        // Auto-retry connection every 5 seconds
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 5000);
+        
+        // Update status when connection is restored
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>

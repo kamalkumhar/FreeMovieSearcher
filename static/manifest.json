@@ -1,0 +1,63 @@
+{
+    "name": "Free Movie Searcher - AI Movie Recommendations",
+    "short_name": "MovieSearcher",
+    "description": "Find perfect movies with AI-powered recommendations from 3500+ films",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#667eea",
+    "theme_color": "#667eea",
+    "orientation": "portrait-primary",
+    "categories": ["entertainment", "movies", "lifestyle"],
+    "lang": "en-US",
+    "dir": "ltr",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/static/favicon-clapper-modern.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/static/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/static/screenshot-wide.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "/static/screenshot-mobile.png",
+            "sizes": "750x1334",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Search Movies",
+            "short_name": "Search",
+            "description": "Search for movies instantly",
+            "url": "/?action=search",
+            "icons": [{ "src": "/static/icon-search.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Popular Movies",
+            "short_name": "Popular",
+            "description": "Browse trending movies",
+            "url": "/?action=popular",
+            "icons": [{ "src": "/static/icon-popular.png", "sizes": "96x96" }]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

@@ -50,12 +50,17 @@
     <link rel="icon" type="image/svg+xml" href="/static/favicon-clapper-modern.svg">
     <link rel="alternate icon" href="/static/favicon.ico">
     <link rel="apple-touch-icon" href="/static/favicon-clapper-modern.svg">
+    <link rel="manifest" href="/manifest.json">
     
-    <!-- Preconnect for performance -->
+    <!-- Critical Resource Hints for Performance -->
     <link rel="preconnect" href="https://image.tmdb.org" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    
+    <!-- Preload critical resources for LCP -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='favicon-clapper-modern.svg') }}" type="image/svg+xml">
     
     <!-- Ezoic Ad Placeholder - Will be auto-inserted by Ezoic after approval -->
     <script data-ezscrex="false" data-cfasync="false" type="text/javascript">
@@ -179,6 +184,34 @@
     }
     </script>
     
+    <!-- BreadcrumbList Schema for Navigation -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://freemoviesearcher.tech/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Movie Recommendations",
+                "item": "https://freemoviesearcher.tech/#recommendations"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Blog",
+                "item": "https://freemoviesearcher.tech/#blog"
+            }
+        ]
+    }
+    </script>
+    
     <!-- Blog ItemList Structured Data for SEO -->
     <script type="application/ld+json">
     {
@@ -187,7 +220,7 @@
         "name": "Movie Blog Articles - FreeMovieSearcher",
         "description": "Comprehensive movie guides covering Netflix movies, top classics, action films, horror movies, romantic comedies, sci-fi, thrillers, and streaming recommendations",
         "url": "https://freemoviesearcher.tech/#blog",
-        "numberOfItems": 30,
+        "numberOfItems": 35,
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "url": "https://freemoviesearcher.tech/blog/best-netflix-movies-2025", "name": "Best Movies to Watch on Netflix 2025"},
             {"@type": "ListItem", "position": 2, "url": "https://freemoviesearcher.tech/blog/top-10-movies-all-time", "name": "Top 10 Movies of All Time - Must Watch Classics"},
@@ -218,7 +251,89 @@
             {"@type": "ListItem", "position": 27, "url": "https://freemoviesearcher.tech/blog/free-movie-download", "name": "Free Movie Download Sites - Legal Ways to Download Movies"},
             {"@type": "ListItem", "position": 28, "url": "https://freemoviesearcher.tech/blog/free-movies-no-subscription", "name": "Watch Free Movies Without Subscription - No Sign Up Required"},
             {"@type": "ListItem", "position": 29, "url": "https://freemoviesearcher.tech/blog/classic-movies-to-watch", "name": "Free Classic Movies Online - Where to Watch Old Hollywood Films"},
-            {"@type": "ListItem", "position": 30, "url": "https://freemoviesearcher.tech/blog/free-hd-movies-online", "name": "Free HD Movies Online - Watch High Quality Movies Free"}
+            {"@type": "ListItem", "position": 30, "url": "https://freemoviesearcher.tech/blog/free-hd-movies-online", "name": "Free HD Movies Online - Watch High Quality Movies Free"},
+            {"@type": "ListItem", "position": 31, "url": "https://freemoviesearcher.tech/blog/best-amazon-prime-movies", "name": "Best Amazon Prime Movies 2025"},
+            {"@type": "ListItem", "position": 32, "url": "https://freemoviesearcher.tech/blog/best-mystery-movies", "name": "Best Mystery Movies That Keep You Guessing"},
+            {"@type": "ListItem", "position": 33, "url": "https://freemoviesearcher.tech/blog/best-plot-twist-movies", "name": "Best Plot Twist Movies - Shocking Reveals"},
+            {"@type": "ListItem", "position": 34, "url": "https://freemoviesearcher.tech/blog/best-superhero-movies", "name": "Best Superhero Movies - Marvel DC and Beyond"},
+            {"@type": "ListItem", "position": 35, "url": "https://freemoviesearcher.tech/blog/best-crime-movies", "name": "Best Crime Movies - Gangsters Heists and Noir"}
+        ]
+    }
+    </script>
+    
+    <!-- Organization Schema for E-E-A-T -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Free Movie Searcher",
+        "alternateName": "FreeMovieSearcher",
+        "url": "https://freemoviesearcher.tech",
+        "logo": "https://freemoviesearcher.tech/static/logo-clapper.svg",
+        "description": "AI-powered movie recommendation engine helping users discover perfect films from 3500+ movies database",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Customer Service",
+            "url": "https://freemoviesearcher.tech/contact",
+            "availableLanguage": ["English", "Hindi"]
+        },
+        "sameAs": [
+            "https://www.facebook.com/freemoviesearcher",
+            "https://twitter.com/freemoviesearch",
+            "https://www.instagram.com/freemoviesearcher"
+        ],
+        "foundingDate": "2024",
+        "knowsAbout": ["Movies", "Cinema", "Film Recommendations", "Entertainment", "Streaming Services"],
+        "areaServed": "Worldwide"
+    }
+    </script>
+    
+    <!-- FAQ Schema for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What movie should I watch tonight?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use our AI-powered movie recommendation engine to find the perfect film based on your mood, genre preferences, or similar movies you've enjoyed. We have 3500+ movies from Hollywood, Bollywood, Korean cinema, and regional films."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the movie recommendation engine work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our AI analyzes your movie preferences, viewing history, and mood to recommend similar films. The system uses machine learning algorithms to find movies that match your taste from our database of 3500+ titles."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I find streaming links for Netflix, Prime Video, Disney+?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Each movie recommendation includes information about where to watch it online, including Netflix, Amazon Prime Video, Disney+, Hotstar, and other streaming platforms."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is Free Movie Searcher really free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! Free Movie Searcher is 100% free to use. No subscriptions, no hidden fees. Get unlimited movie recommendations, watch trailers, and find streaming links at no cost."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I search for Bollywood, Korean, or regional movies?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our database includes Hollywood blockbusters, Bollywood hits, Korean dramas (K-dramas), Telugu movies, Tamil films, Malayalam cinema, and other regional content. Search by genre, language, or mood."
+                }
+            }
         ]
     }
     </script>
@@ -312,9 +427,9 @@
             text-align: left;
             font-size: 2.5rem;
             background: linear-gradient(45deg, #667eea, #764ba2);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             font-weight: 700;
             flex: 0;
             display: flex;
@@ -2311,7 +2426,7 @@
                 <meta itemprop="name" content="Movie Blog - Ultimate Movie Guide - FreeMovieSearcher">
                 <meta itemprop="description" content="Comprehensive movie guides covering Netflix movies, top classics, action films, horror movies, romantic comedies, sci-fi, thrillers, and streaming recommendations. Your ultimate resource for movie discovery.">
                 <meta itemprop="url" content="https://freemoviesearcher.tech/#blog">
-                <h1 style="text-align: center; font-size: 2.5rem; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 3rem; font-weight: 700;">Movie Blog - Ultimate Movie Guide</h1>
+                <h1 style="text-align: center; font-size: 2.5rem; background: linear-gradient(45deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 3rem; font-weight: 700;">Movie Blog - Ultimate Movie Guide</h1>
                 
                 <div itemscope itemtype="https://schema.org/ItemList">
                 <meta itemprop="name" content="Movie Blog Articles">
@@ -2594,20 +2709,20 @@
         <div id="recommendations-section" class="section">
             <!-- Hero Introduction -->
             <div style="text-align: center; padding: 1rem 1rem 1.5rem 1rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border-radius: 15px; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 2.5rem; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.8rem; font-weight: 700;">Can't Decide What Movie to Watch?</h2>
+                <h2 style="font-size: 2.5rem; background: linear-gradient(45deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.8rem; font-weight: 700;">Can't Decide What Movie to Watch?</h2>
                 <p style="font-size: 1.2rem; color: #555; margin-bottom: 0.5rem; line-height: 1.6;">Stop endlessly scrolling through Netflix, Prime Video & Disney+!</p>
                 <p style="font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 1rem;">Our <strong>AI-powered movie recommendation engine</strong> finds the perfect film for your mood in seconds.</p>
                 <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;">
                     <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">3500+</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(45deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">3500+</div>
                         <div style="color: #666; font-size: 0.95rem;">Movies</div>
                     </div>
                     <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">50+</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(45deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">50+</div>
                         <div style="color: #666; font-size: 0.95rem;">Genres</div>
                     </div>
                     <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(45deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</div>
                         <div style="color: #666; font-size: 0.95rem;">Powered</div>
                     </div>
                 </div>

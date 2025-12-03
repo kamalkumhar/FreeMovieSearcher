@@ -19,6 +19,11 @@ instance/
 .vscode/
 .idea/
 
+# Render deployment files (not needed for Vercel)
+render.yaml
+Procfile
+runtime.txt
+
 # Environment files
 .env
 .env.local

@@ -42,29 +42,36 @@ def redirect_to_canonical():
 # Performance optimization: Add caching headers
 @app.after_request
 def add_cache_headers(response):
-    # Add security headers for SEO and security
+    # Enhanced security headers for SEO and security
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Permissions-Policy'] = 'geolocation=(), microphone=(), camera=()'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload'
     
     # Allow images from all sources for blog images
-    response.headers['Content-Security-Policy'] = "img-src * data: blob:;"
+    response.headers['Content-Security-Policy'] = "default-src 'self'; img-src * data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://image.tmdb.org;"
     
     # Cache static files for 1 year
     if request.path.startswith('/static/'):
         response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
     # Cache API responses for 1 hour
     elif request.path.startswith(('/recommend', '/search', '/popular', '/genres', '/genre/')):
-        response.headers['Cache-Control'] = 'public, max-age=3600'
+        response.headers['Cache-Control'] = 'public, max-age=3600, s-maxage=7200, stale-while-revalidate=86400'
     # Cache sitemap/robots for 1 day
     elif request.path in ['/sitemap.xml', '/robots.txt', '/ads.txt']:
-        response.headers['Cache-Control'] = 'public, max-age=86400'
+        response.headers['Cache-Control'] = 'public, max-age=86400, s-maxage=172800'
     # Don't cache HTML pages (for SEO updates)
     else:
         response.headers['Cache-Control'] = 'public, max-age=0, must-revalidate'
     
     # Add compression hint
     response.headers['Vary'] = 'Accept-Encoding'
+    
+    # Add ETag for better caching
+    if not response.headers.get('ETag'):
+        response.add_etag()
     
     return response
 
@@ -927,6 +934,126 @@ BLOG_POSTS = {
                 'text': 'Cult classic movies often failed commercially upon initial release but discovered devoted audiences through home video, late-night television, or word-of-mouth recommendations. These films offer unique perspectives, memorable characters, and quotable dialogue that create communities around shared appreciation for misunderstood or overlooked cinema.'
             }
         ]
+    },
+    'best-amazon-prime-movies': {
+        'title': 'Best Amazon Prime Movies 2025 - Must-Watch Films on Prime Video',
+        'meta_description': 'Discover the best movies on Amazon Prime Video in 2025. From award-winning originals to classic films, explore top-rated content available for Prime members.',
+        'date': '2025-01-20',
+        'author': 'FreeMovieSearcher Editorial',
+        'content': [
+            {
+                'heading': 'Why Amazon Prime Video Is Essential for Movie Lovers in 2025',
+                'text': 'Amazon Prime Video has emerged as a powerhouse streaming service, offering an impressive library of over 20,000 movies and TV shows included with Prime membership. The platform has invested heavily in original content, producing critically acclaimed films like "The Marvelous Mrs. Maisel" movie adaptation and exclusive theatrical releases from major studios. Prime Video\'s partnership with MGM Studios has expanded its classic film collection, bringing timeless cinema to modern audiences. The service offers unique features like X-Ray for behind-the-scenes information and the ability to rent or buy new releases not included in the subscription. With 4K Ultra HD streaming, Dolby Atmos sound, and offline downloads, Prime Video delivers premium viewing experiences. The platform excels in international content, showcasing Bollywood blockbusters, European arthouse cinema, and Asian action films. Amazon\'s commitment to diverse storytelling ensures that every viewer finds compelling content across all genres and cultures.'
+            },
+            {
+                'heading': 'Top 10 Amazon Prime Original Movies You Cannot Miss',
+                'text': 'Amazon Prime Originals have garnered critical acclaim and numerous awards, establishing the platform as a serious competitor in original film production. "The Sound of Metal" earned Oscar nominations for its powerful portrayal of a drummer losing his hearing, featuring Riz Ahmed\'s transformative performance. "One Night in Miami" showcases Regina King\'s exceptional directorial debut, imagining a conversation between Malcolm X, Muhammad Ali, Jim Brown, and Sam Cooke. "Coming 2 America" brought Eddie Murphy back to his iconic role after 30 years, delivering nostalgia and fresh comedy. "The Tomorrow War" offers big-budget sci-fi action with Chris Pratt fighting aliens across time. "Borat Subsequent Moviefilm" captured cultural zeitgeist during pandemic times with Sacha Baron Cohen\'s fearless satire. "The Vast of Night" delivers atmospheric sci-fi mystery on a modest budget. "Troop Zero" presents a heartwarming story about misfits finding belonging. These originals demonstrate Amazon\'s commitment to diverse storytelling, supporting both established filmmakers and emerging voices with substantial budgets and creative freedom.'
+            },
+            {
+                'heading': 'Classic Movies and Hidden Gems on Amazon Prime Video',
+                'text': 'Beyond original content, Prime Video houses an exceptional collection of classic cinema and overlooked masterpieces. The MGM library brings Golden Age Hollywood films including "Singin\' in the Rain," "Lawrence of Arabia," and "Some Like It Hot." Film noir enthusiasts can explore "The Third Man," "Double Indemnity," and "The Maltese Falcon." International cinema is well-represented with works from Akira Kurosawa, Federico Fellini, and Ingmar Bergman. Hidden gems include "The Vast of Night," a low-budget sci-fi thriller with stunning cinematography and suspenseful storytelling. "Sound of Metal" offers a unique perspective on disability and identity. "Honey Boy" presents Shia LaBeouf\'s autobiographical screenplay about childhood trauma. "The Report" delivers a gripping political thriller about the CIA torture program. "American Animals" blends documentary and narrative filmmaking in a heist story. "You Were Never Really Here" showcases Joaquin Phoenix in a dark psychological thriller. These films demonstrate that Prime Video offers depth beyond mainstream blockbusters, providing cinephiles with substantial artistic content.'
+            },
+            {
+                'heading': 'How to Maximize Your Amazon Prime Video Experience',
+                'text': 'To get the most from Prime Video, create separate profiles for family members to receive personalized recommendations. Use the Watchlist feature to save interesting titles for later viewing. Enable X-Ray during playback to see cast information, music details, and trivia without leaving the film. Download content for offline viewing when traveling or in areas with limited connectivity. Adjust streaming quality in settings to balance between video quality and data usage. Explore IMDb integration for detailed information about films, including user reviews and professional critic scores. Use voice commands with Alexa-enabled devices for hands-free control. Take advantage of Prime Video Channels to add subscriptions like Showtime, Starz, or specialized services like Mubi for arthouse cinema. Check the "Leaving Soon" section to prioritize films that will be removed from the service. Use FreeMovieSearcher\'s recommendation engine to discover personalized suggestions based on your viewing history. Rate movies after watching to improve recommendation accuracy. Participate in Prime Video\'s watch parties feature to enjoy films with friends and family remotely.'
+            }
+        ]
+    },
+    'best-mystery-movies': {
+        'title': 'Best Mystery Movies That Keep You Guessing Until the End',
+        'meta_description': 'Explore the best mystery movies filled with twists, clues, and unforgettable reveals. From classic whodunits to modern psychological thrillers.',
+        'date': '2025-01-18',
+        'author': 'FreeMovieSearcher Editorial',
+        'content': [
+            {
+                'heading': 'The Enduring Appeal of Mystery Films in Cinema',
+                'text': 'Mystery movies captivate audiences by transforming viewers into active participants, challenging them to piece together clues, identify suspects, and solve puzzles alongside detectives. The best mystery films balance providing enough information for engaged viewers to theorize while maintaining surprising revelations that feel both shocking and inevitable upon reflection. These films tap into fundamental human curiosity and the satisfaction of uncovering hidden truths. Classic mystery structure follows detective narratives where methodical investigation reveals carefully concealed secrets, while modern psychological mysteries blur lines between reality and perception. The genre has evolved from straightforward whodunits to complex narratives exploring unreliable narrators, fractured timelines, and moral ambiguity. Mystery films create immersive experiences through atmospheric cinematography, meticulous production design establishing time and place, and carefully calibrated pacing that builds suspense. The satisfaction comes not just from the reveal but from the journey of discovery, making mystery films infinitely rewatchable as viewers notice previously overlooked clues.'
+            },
+            {
+                'heading': 'Classic Mystery Masterpieces That Defined the Genre',
+                'text': 'Agatha Christie adaptations set the gold standard for mystery cinema with "Murder on the Orient Express" presenting an ensemble cast of suspects in a confined setting where everyone has secrets and motives. Sidney Lumet\'s 1974 version features impeccable performances from Albert Finney as Hercule Poirot and an all-star cast. The film demonstrates how methodical investigation and deductive reasoning can unravel seemingly impossible crimes. "Chinatown" transcends traditional mystery with Roman Polanski\'s neo-noir exploring corruption, conspiracy, and moral decay in 1930s Los Angeles. Jack Nicholson\'s private detective Jake Gittes uncovers layers of deception that lead to devastating personal and political revelations. "The Maltese Falcon" established detective noir aesthetics with Humphrey Bogart\'s Sam Spade navigating a world of lies, betrayal, and greed. "Rear Window" demonstrates Hitchcock\'s mastery of suspense as James Stewart\'s wheelchair-bound photographer suspects his neighbor of murder based on observations from his apartment window. These classics establish mystery conventions while demonstrating that great mystery films transcend genre formulas to explore human nature, social structures, and moral complexity.'
+            },
+            {
+                'heading': 'Modern Mystery Films That Redefined Expectations',
+                'text': 'Contemporary mystery cinema has evolved beyond traditional detective narratives to embrace psychological complexity and narrative experimentation. "Gone Girl" subverts expectations by making the mystery not just about a disappearance but about marriage, media manipulation, and the masks people wear. David Fincher\'s meticulous direction and Gillian Flynn\'s sharp screenplay create a twisted puzzle where every revelation changes perception. "Knives Out" revitalizes the classic whodunit format with Rian Johnson\'s clever screenplay featuring Daniel Craig\'s eccentric detective Benoit Blanc investigating a wealthy family after the patriarch\'s suspicious death. The film balances humor, social commentary, and genuine mystery with a surprising structure that reveals the killer midway then shifts focus to how the detective uncovers the truth. "Prisoners" delivers a dark, intense mystery about a father\'s desperate search for his kidnapped daughter, exploring how far good people will go when faced with unthinkable circumstances. "Zodiac" presents a procedural mystery that refuses easy answers, reflecting the frustrating reality of unsolved crimes. "Shutter Island" layers psychological complexity with unreliable narration and twist revelations. These modern mysteries demonstrate the genre\'s continued evolution and relevance.'
+            },
+            {
+                'heading': 'Essential Elements of Great Mystery Storytelling',
+                'text': 'Successful mystery films require careful construction where every element serves the puzzle while maintaining emotional engagement. Clues must be planted fairly without becoming obvious, allowing attentive viewers to theorize while ensuring revelations still surprise. Red herrings distract without feeling cheap or manipulative. Character development ensures audiences care about outcomes beyond intellectual curiosity about the solution. Suspects need distinct personalities, plausible motives, and opportunities that make multiple solutions seem viable. Atmosphere and setting become characters themselves, establishing mood and providing subtext – fog-shrouded Gothic mansions, rain-soaked urban landscapes, or claustrophobic confined spaces heighten tension and mystery. Pacing balances investigation scenes that reveal information with action or character moments that maintain narrative momentum. The detective or protagonist must be compelling enough to carry the investigation, whether they\'re brilliant observers like Sherlock Holmes or ordinary people thrust into extraordinary circumstances. The best mystery films ensure that the emotional payoff matches the intellectual satisfaction of the revealed truth, making the mystery resolution feel meaningful beyond mere puzzle-solving. Multiple viewings reveal careful craftsmanship in how information was presented and misdirection achieved.'
+            }
+        ]
+    },
+    'best-plot-twist-movies': {
+        'title': 'Best Plot Twist Movies - Shocking Reveals That Changed Everything',
+        'meta_description': 'Experience the best plot twist movies that left audiences stunned. From The Sixth Sense to Fight Club, discover films with unforgettable surprise endings.',
+        'date': '2025-01-16',
+        'author': 'FreeMovieSearcher Editorial',
+        'content': [
+            {
+                'heading': 'The Art and Psychology of Effective Plot Twists',
+                'text': 'Great plot twists recontextualize everything that came before, forcing audiences to reconsider characters, motivations, and events in entirely new light while feeling both surprising and inevitable upon reflection. The best twists are carefully constructed from the beginning, with filmmakers planting clues that seem innocuous during first viewing but become obvious in retrospect. This requires meticulous planning where every scene, line of dialogue, and visual detail serves dual purposes – supporting both the perceived narrative and the hidden truth. Psychological research shows that effective twists trigger cognitive dissonance as our brains reconcile new information with established beliefs, creating memorable emotional responses. The shock comes from subverted expectations built through narrative misdirection, unreliable narrators, or strategic information withholding. However, twists must be earned through internal logic rather than arbitrary reveals that feel cheap or manipulative. The most satisfying twists make audiences want to immediately rewatch the film to spot missed clues and appreciate the filmmakers\' craftsmanship. They demonstrate that cinema can manipulate perception and challenge assumptions about storytelling itself.'
+            },
+            {
+                'heading': 'The Sixth Sense - The Twist That Defined a Generation',
+                'text': 'M. Night Shyamalan\'s 1999 masterpiece set the gold standard for plot twist cinema with its revelation that child psychologist Malcolm Crowe, played by Bruce Willis, has been dead throughout the film. The twist works because Shyamalan meticulously constructs every scene to support both interpretations – Malcolm is helping Haley Joel Osment\'s Cole Sear with his ability to see dead people while simultaneously being one of those spirits without realizing it. Visual clues planted throughout include Malcolm wearing the same clothes after the opening shooting, his estranged relationship with his wife that audiences misinterpret as marital problems rather than her inability to see him, and the color red appearing whenever the supernatural is present. The twist reframes the entire narrative from a story about helping a troubled child to a ghost story about Malcolm accepting his own death and finding redemption through helping Cole. The emotional impact comes from understanding that Malcolm\'s journey was about spiritual unfinished business and acceptance rather than professional achievement. Audiences immediately wanted to rewatch the film to catch the carefully hidden clues, sparking discussions about filmmaking craft and narrative misdirection that influenced countless future movies.'
+            },
+            {
+                'heading': 'Fight Club - Identity, Reality, and Unreliable Narration',
+                'text': 'David Fincher\'s adaptation of Chuck Palahniuk\'s novel delivers one of cinema\'s most famous twists – Tyler Durden, the charismatic anarchist played by Brad Pitt, is actually a dissociative identity created by the unnamed narrator portrayed by Edward Norton. The revelation recontextualizes every scene featuring Tyler, showing that the narrator was alone during those moments, with Tyler representing his suppressed desires for freedom, masculinity, and rebellion against consumer culture. Fincher plants visual clues throughout: Tyler appearing for single frames before the characters officially meet, scenes where other characters only acknowledge the narrator rather than Tyler, and architectural impossibilities in Tyler\'s house. The twist comments on masculinity, capitalism, mental health, and identity while functioning as pure narrative shock. It works because Tyler embodies everything the narrator believes he lacks but actually possesses within himself. The film explores how we create personas to cope with societal pressures and existential dissatisfaction. Upon rewatching, every Tyler scene reveals the narrator\'s psychological state and internal conflict. The twist elevated Fight Club from cult hit to cultural phenomenon, demonstrating how surprise reveals can enhance thematic depth rather than existing merely for shock value.'
+            },
+            {
+                'heading': 'Other Unforgettable Plot Twist Masterpieces',
+                'text': 'Plot twist cinema extends far beyond these iconic examples, with numerous films delivering shocking reveals that redefine their narratives. "The Usual Suspects" concludes with the revelation that Verbal Kint, seemingly weak and helpless, is actually the legendary criminal mastermind Keyser Söze, with Roger "Verbal" Kint fabricating the entire story from objects in the police office. "Arrival" transforms a first-contact alien narrative into exploration of time, language, and predestination as Amy Adams\' linguist realizes her visions aren\'t memories but premonitions. "Shutter Island" reveals that Leonardo DiCaprio\'s federal marshal is actually an institutionalized patient, with the investigation being elaborate role-play therapy. "The Others" inverts the haunted house formula by revealing Nicole Kidman\'s family are the ghosts haunting the living. "Oldboy" delivers a gut-punch twist about revenge and hypnotic manipulation that makes audiences question revenge narratives. "Memento" uses reverse chronology to reveal the protagonist has been manipulating his own limited memory to maintain purpose. "The Prestige" features multiple twists about identity, sacrifice, and the cost of obsession. These films demonstrate that effective twists serve thematic purposes beyond mere surprise, using unexpected revelations to explore deeper truths about human nature, perception, and the stories we tell ourselves.'
+            }
+        ]
+    },
+    'best-superhero-movies': {
+        'title': 'Best Superhero Movies - From Marvel to DC and Beyond',
+        'meta_description': 'Discover the best superhero movies that defined the genre. From The Dark Knight to Avengers Endgame, explore the greatest comic book films ever made.',
+        'date': '2025-01-14',
+        'author': 'FreeMovieSearcher Editorial',
+        'content': [
+            {
+                'heading': 'The Evolution of Superhero Cinema Into Dominant Film Genre',
+                'text': 'Superhero movies have evolved from campy serials and niche comic adaptations into the dominant force in global cinema, generating billions in revenue and shaping pop culture discourse. This transformation began with Richard Donner\'s "Superman" (1978) proving that comic book characters could carry serious dramatic weight and emotional depth. Tim Burton\'s "Batman" (1989) established darker tones and psychological complexity. The modern era exploded with Sam Raimi\'s "Spider-Man" (2002) demonstrating mass audience appeal, followed by Christopher Nolan\'s "Dark Knight" trilogy elevating the genre to prestige cinema. The Marvel Cinematic Universe revolutionized filmmaking with interconnected storytelling across multiple films and characters, creating unprecedented shared universe narratives. Superhero films now explore complex themes including power and responsibility, vigilantism and justice, identity and belonging, sacrifice and heroism, discrimination and acceptance. The genre encompasses multiple styles from gritty realism to cosmic fantasy, political thrillers to coming-of-age stories. Modern superhero cinema reflects contemporary anxieties about authority, surveillance, environmental collapse, and social division while providing escapist entertainment and aspirational heroes.'
+            },
+            {
+                'heading': 'The Dark Knight - Superhero Cinema as Serious Art',
+                'text': 'Christopher Nolan\'s 2008 masterpiece transcended the superhero genre to become one of the greatest films of the 21st century, proving that comic book movies could deliver profound thematic depth, moral complexity, and artistic excellence rivaling any prestige drama. Heath Ledger\'s Oscar-winning performance as the Joker created one of cinema\'s most terrifying villains – an agent of chaos who exposes the fragility of social order and the thin line between heroism and vigilantism. Christian Bale\'s Batman faces impossible moral choices as Gotham descends into anarchy, forcing him to compromise principles to save the city. The film explores surveillance ethics, the social contract, charismatic evil, and whether ends justify means in fighting terrorism. Wally Pfister\'s cinematography captures Gotham as a realized urban landscape rather than stylized fantasy, while Hans Zimmer\'s score builds relentless tension. The interrogation scene between Batman and Joker represents peak dramatic filmmaking regardless of genre. Two-Face\'s transformation from idealistic district attorney to vengeful villain demonstrates how trauma corrupts noble intentions. The film\'s ending, with Batman accepting blame for Harvey Dent\'s crimes to preserve hope, delivers genuine tragic weight rarely seen in blockbuster entertainment.'
+            },
+            {
+                'heading': 'Marvel Cinematic Universe - The Infinity Saga Achievement',
+                'text': 'The MCU\'s 23-film Infinity Saga represents unprecedented achievement in serialized cinematic storytelling, weaving interconnected narratives across a decade into satisfying culmination with "Avengers: Endgame." Marvel Studios mastered balancing standalone stories with overarching mythology, introducing characters in solo films before uniting them in team-up spectacles. "Iron Man" established the template with Robert Downey Jr.\'s charismatic Tony Stark – flawed, witty, and human despite technological powers. "Captain America: The Winter Soldier" delivered a political thriller about surveillance and freedom disguised as superhero action. "Black Panther" explored African futurism, colonialism, and identity while celebrating Black culture and becoming a cultural phenomenon. "Thor: Ragnarok" reinvented its franchise with humor and visual creativity. "Guardians of the Galaxy" proved audiences would embrace obscure characters with the right tone and heart. "Avengers: Infinity War" shocked audiences with heroes failing and villain Thanos winning, setting up "Endgame\'s" emotional payoff where original Avengers sacrifice everything to restore the universe. The Infinity Saga succeeded through compelling characters, thematic consistency about power and responsibility, and emotional investment built over years, making the conclusion genuinely moving despite its massive scale.'
+            },
+            {
+                'heading': 'Essential Superhero Films Beyond Marvel and DC',
+                'text': 'Great superhero cinema extends beyond the big two comic publishers, with films that deconstruct, subvert, or reimagine the genre in innovative ways. "The Incredibles" delivers Pixar\'s sophisticated examination of superhero retirement, family dynamics, and the ethics of exceptional individuals in egalitarian society, functioning as both fantastic entertainment and sharp social commentary. "Unbreakable" presents M. Night Shyamalan\'s grounded take on superhero origin stories, exploring destiny, purpose, and the symbiotic relationship between hero and villain. "Kick-Ass" offers violent satire of superhero culture through ordinary people adopting vigilante personas without actual powers, examining hero worship and real-world consequences of violence. "Chronicle" reimagines the origin story as found-footage character study of troubled teens gaining telekinetic powers, exploring how trauma and power corrupt. "Logan" delivers a Western-influenced character piece about aging, legacy, and mortality, giving Wolverine a proper dramatic sendoff. "Spider-Man: Into the Spider-Verse" revolutionizes superhero animation with stunning visual innovation and heartfelt story about multiple Spider-people across dimensions. "Watchmen" deconstructs superhero mythology entirely, examining the psychological profiles of costumed vigilantes and questioning whether such individuals would actually be heroic. These films demonstrate that superhero concepts can support any story genre and thematic exploration.'
+            }
+        ]
+    },
+    'best-crime-movies': {
+        'title': 'Best Crime Movies - Gangsters, Heists, and Noir Classics',
+        'meta_description': 'Explore the best crime movies from The Godfather to Goodfellas. Discover gripping tales of gangsters, heists, detectives, and the criminal underworld.',
+        'date': '2025-01-12',
+        'author': 'FreeMovieSearcher Editorial',
+        'content': [
+            {
+                'heading': 'The Enduring Appeal of Crime Cinema Across Generations',
+                'text': 'Crime movies captivate audiences by exploring humanity\'s darkest impulses, moral ambiguity, and the allure of forbidden transgression within societies bound by rules and consequences. The genre offers vicarious thrills of living outside social constraints while examining the psychological and social factors that drive criminal behavior. Great crime films balance glorification with condemnation, presenting criminals as complex characters with relatable motivations rather than simple villains. They explore themes of loyalty and betrayal, power and corruption, justice and revenge, ambition and downfall. The best crime cinema serves as social commentary, reflecting anxieties about class disparity, institutional failure, urban decay, and the American Dream\'s dark underbelly. Film noir established visual and thematic conventions – shadowy cinematography, morally compromised protagonists, femme fatales, and pessimistic worldviews – that continue influencing modern films. Crime narratives span multiple subgenres including gangster epics, heist thrillers, police procedurals, noir mysteries, and true crime adaptations. The genre provides frameworks for examining how circumstances, choices, and social structures shape human behavior and destiny.'
+            },
+            {
+                'heading': 'The Godfather - The Pinnacle of Crime Cinema',
+                'text': 'Francis Ford Coppola\'s 1972 masterpiece remains not just the greatest crime film but one of the finest achievements in cinema history, transforming Mario Puzo\'s pulp novel into operatic exploration of family, power, and the corruption of the American Dream. Marlon Brando\'s iconic Don Vito Corleone embodies Old World values of honor and loyalty transplanted to capitalist America where business and violence intertwine. Al Pacino\'s Michael Corleone undergoes cinema\'s greatest character transformation from war hero reluctant to join the family business to cold, calculating mafia boss who consolidates power through strategic violence. The film\'s genius lies in making audiences complicit in the Corleones\' crimes through emotional investment in the family\'s survival and success. Gordon Willis\'s shadowy cinematography creates a visual language where characters literally operate in moral darkness. Nino Rota\'s haunting score mixes romantic nostalgia with ominous foreboding. The film balances intimate family moments – the wedding sequence establishing characters and relationships – with shocking violence like the horse head scene and restaurant shooting. Its examination of immigrant assimilation, corporate criminality, and American institutions\' corruption resonates decades later.'
+            },
+            {
+                'heading': 'Heist Films - The Perfect Crime and Inevitable Failure',
+                'text': 'Heist movies deliver unique satisfaction through meticulous planning, specialized expertise, and the fantasy of pulling off impossible thefts against overwhelming odds. "Heat" represents Michael Mann\'s masterpiece where professional thief Neil McCauley (Robert De Niro) and detective Vincent Hanna (Al Pacino) recognize themselves as mirror images – both obsessive men sacrificing personal relationships for professional excellence. The legendary coffee shop conversation between them acknowledges mutual respect despite opposing sides of the law. The downtown Los Angeles shootout remains one of cinema\'s most intense action sequences with realistic sound design and tactical precision. "Ocean\'s Eleven" delivers stylish fun through Steven Soderbergh\'s slick direction, charismatic ensemble cast led by George Clooney, and the satisfaction of watching competent professionals execute elaborate plans. "The Italian Job" (both 1969 original and 2003 remake) offers European flair and iconic Mini Cooper chases. "Rififi" presents the template for heist films with its wordless 30-minute robbery sequence emphasizing technique and tension. "Logan Lucky" subverts expectations with working-class criminals pulling off a NASCAR heist. These films combine puzzle-solving satisfaction, star power, exotic locations, and vicarious thrills of outsmarting authority.'
+            },
+            {
+                'heading': 'Modern Crime Classics Redefining the Genre',
+                'text': 'Contemporary crime cinema continues evolving by subverting conventions, exploring new perspectives, and reflecting changing social realities. "No Country for Old Men" delivers the Coen Brothers\' bleak meditation on fate, violence, and the incomprehensibility of evil through Javier Bardem\'s terrifying Anton Chigurh – a remorseless killer who operates by arbitrary rules in a morally chaotic universe. "Sicario" examines the drug war\'s moral complexity through Emily Blunt\'s idealistic FBI agent confronting the brutal realities of border violence and extrajudicial justice. Denis Villeneuve\'s direction creates overwhelming dread through Roger Deakins\' cinematography and Jóhann Jóhannsson\'s oppressive score. "Drive" reinvents the getaway driver archetype with Ryan Gosling\'s silent stuntman drawn into criminal violence while trying to protect his neighbors. Nicolas Winding Refn\'s stylized visuals and Cliff Martinez\'s synth score create hypnotic atmosphere. "Hell or High Water" offers a modern Western about brothers robbing banks to save their family ranch, exploring economic desperation and institutional failure. "Parasite" uses crime elements to examine class warfare and social inequality in contemporary South Korea. These films demonstrate that crime cinema remains vital for exploring contemporary anxieties, social injustice, and moral complexity in an uncertain world.'
+            }
+        ]
     }
 }
 
@@ -1081,35 +1208,50 @@ def get_top_directors(limit=10):
 # SEO Routes - Sitemap and Robots.txt
 @app.route('/sitemap.xml')
 def sitemap():
-    """Generate dynamic sitemap for search engines with all blog posts"""
+    """Generate enhanced dynamic sitemap with images and priorities"""
     from datetime import datetime
     
-    # Include pages that have routes defined
+    # Main pages with optimized priorities and changefreq
     pages = [
-        {'loc': '/', 'priority': '1.0', 'changefreq': 'daily'},
-        {'loc': '/about', 'priority': '0.8', 'changefreq': 'monthly'},
-        {'loc': '/faq', 'priority': '0.9', 'changefreq': 'weekly'},
-        {'loc': '/contact', 'priority': '0.6', 'changefreq': 'monthly'},
-        {'loc': '/privacy', 'priority': '0.5', 'changefreq': 'yearly'},
-        {'loc': '/terms', 'priority': '0.5', 'changefreq': 'yearly'},
-        {'loc': '/disclaimer', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': '/', 'priority': '1.0', 'changefreq': 'daily', 'lastmod': datetime.now()},
+        {'loc': '/about', 'priority': '0.9', 'changefreq': 'monthly', 'lastmod': datetime(2025, 12, 1)},
+        {'loc': '/faq', 'priority': '0.9', 'changefreq': 'weekly', 'lastmod': datetime(2025, 12, 1)},
+        {'loc': '/contact', 'priority': '0.7', 'changefreq': 'monthly', 'lastmod': datetime(2025, 12, 1)},
+        {'loc': '/privacy', 'priority': '0.5', 'changefreq': 'yearly', 'lastmod': datetime(2025, 11, 15)},
+        {'loc': '/terms', 'priority': '0.5', 'changefreq': 'yearly', 'lastmod': datetime(2025, 11, 15)},
+        {'loc': '/disclaimer', 'priority': '0.5', 'changefreq': 'yearly', 'lastmod': datetime(2025, 11, 15)},
     ]
     
-    # Add all blog posts (now with routes implemented)
+    # Add all blog posts with metadata
+    blog_dates = {
+        'best-netflix-movies-2025': datetime(2025, 1, 15),
+        'top-10-movies-all-time': datetime(2025, 1, 10),
+        'best-action-movies': datetime(2025, 1, 8),
+        'best-amazon-prime-movies': datetime(2025, 1, 20),
+        'best-mystery-movies': datetime(2025, 1, 18),
+        'best-plot-twist-movies': datetime(2025, 1, 16),
+        'best-superhero-movies': datetime(2025, 1, 14),
+        'best-crime-movies': datetime(2025, 1, 12),
+    }
+    
     for slug in BLOG_POSTS.keys():
         pages.append({
             'loc': f'/blog/{slug}',
             'priority': '0.8',
-            'changefreq': 'monthly'
+            'changefreq': 'monthly',
+            'lastmod': blog_dates.get(slug, datetime(2024, 11, 1))
         })
     
+    # Generate XML with enhanced schema
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+    sitemap_xml += '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n'
+    sitemap_xml += '        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n'
     
     for page in pages:
         sitemap_xml += '  <url>\n'
         sitemap_xml += f'    <loc>https://freemoviesearcher.tech{page["loc"]}</loc>\n'
-        sitemap_xml += f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>\n'
+        sitemap_xml += f'    <lastmod>{page["lastmod"].strftime("%Y-%m-%d")}</lastmod>\n'
         sitemap_xml += f'    <changefreq>{page["changefreq"]}</changefreq>\n'
         sitemap_xml += f'    <priority>{page["priority"]}</priority>\n'
         sitemap_xml += '  </url>\n'
@@ -1117,30 +1259,43 @@ def sitemap():
     sitemap_xml += '</urlset>'
     
     response = make_response(sitemap_xml)
-    response.headers['Content-Type'] = 'application/xml'
+    response.headers['Content-Type'] = 'application/xml; charset=utf-8'
+    response.headers['Cache-Control'] = 'public, max-age=86400'
     return response
 
 @app.route('/robots.txt')
 def robots():
-    """Serve robots.txt for search engine crawlers"""
-    robots_txt = """User-agent: *
+    """Serve optimized robots.txt for search engine crawlers"""
+    robots_txt = """# Robots.txt for Free Movie Searcher
+# Optimized for Google, Bing, DuckDuckGo, Yandex crawlers
+# Last updated: 2025-12-03
+
+# Allow all search engines
+User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /static/*.json
+Disallow: /*.json$
 
 # Sitemap location
 Sitemap: https://freemoviesearcher.tech/sitemap.xml
 
-# Crawl-delay for courtesy
+# Crawl-delay for courtesy (prevents server overload)
 Crawl-delay: 1
 
-# Allow all major search engines
+# Specific rules for major search engines
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /static/
+Allow: /blog/
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
@@ -1150,10 +1305,29 @@ Allow: /
 
 User-agent: Baiduspider
 Allow: /
+Crawl-delay: 2
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
 """
     
     response = make_response(robots_txt)
-    response.headers['Content-Type'] = 'text/plain'
+    response.headers['Content-Type'] = 'text/plain; charset=utf-8'
+    response.headers['Cache-Control'] = 'public, max-age=86400'
     return response
 
 @app.route('/ads.txt')
@@ -1173,6 +1347,45 @@ def favicon():
         return send_from_directory('static', 'favicon-clapper-modern.svg', mimetype='image/svg+xml')
     except:
         return '', 204  # No content if favicon not found
+
+@app.route('/manifest.json')
+def manifest():
+    """Serve PWA manifest for better mobile experience and SEO"""
+    manifest_data = {
+        "name": "Free Movie Searcher - AI Movie Recommendations",
+        "short_name": "Movie Searcher",
+        "description": "Find perfect movies with AI-powered recommendations",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#667eea",
+        "theme_color": "#667eea",
+        "orientation": "portrait-primary",
+        "icons": [
+            {
+                "src": "/static/favicon-clapper-modern.svg",
+                "sizes": "any",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }
+        ],
+        "categories": ["entertainment", "movies", "recommendations"],
+        "shortcuts": [
+            {
+                "name": "Search Movies",
+                "url": "/#search",
+                "description": "Search for movies"
+            },
+            {
+                "name": "Get Recommendations",
+                "url": "/#recommendations",
+                "description": "Get movie recommendations"
+            }
+        ]
+    }
+    response = make_response(jsonify(manifest_data))
+    response.headers['Content-Type'] = 'application/manifest+json'
+    response.headers['Cache-Control'] = 'public, max-age=86400'
+    return response
 
 # Error handlers for better SEO
 @app.errorhandler(404)
